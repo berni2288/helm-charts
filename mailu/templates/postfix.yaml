@@ -44,7 +44,9 @@ spec:
           - name: DOMAIN
             value: "{{ required "domain" .Values.domain }}"
           - name: HOSTNAMES
-            value: "{{ join "," .Values.hostnames }}"
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
           - name: MESSAGE_SIZE_LIMIT
             value: "{{ mul .Values.mail.messageSizeLimitInMegabytes (mul 1024 1024) }}"
           - name: SUBNET
