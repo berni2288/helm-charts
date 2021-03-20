@@ -36,9 +36,11 @@ spec:
         app: {{ include "mailu.fullname" . }}
         component: front
     spec:
+      {{- if eq .Values.front.controller.kind "Deployment" }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
