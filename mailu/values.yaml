@@ -1,6 +1,7 @@
 # Default values for mailu.
 
 # A list of mail hostnames is required. The first will be used as primary mail hostname
+# For postfix it's recommended to enable dynamicHostname (see postfix configuration)
 #hostnames:
 #  - mail.example.com
 #  - imap.example.com
@@ -16,7 +17,6 @@
 #  username: mailadmin
 #  domain: mydomain.com
 #  password: chang3m3!
-
 
 nameOverride: ""
 fullnameOverride: ""
@@ -168,6 +168,16 @@ postfix:
     limits:
       memory: 2Gi
       cpu: 500m
+  dynamicHostname:
+    # Allows you have multiple K9s worker nodes with different
+    # public IPs and reverse DNS records
+    # Builds the postfix hostname with hostname + domain
+    enable: false
+    hostname:
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    domain: ""
 
 dovecot:
   enabled: true
